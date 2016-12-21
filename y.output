@@ -1,0 +1,1075 @@
+Grammar
+
+    0 $accept: Function $end
+
+    1 Function: Type identifier '(' ArgList ')' CompoundStmt
+
+    2 ArgList: Arg
+    3        | ArgList ',' Arg
+
+    4 Arg: Type identifier
+
+    5 Declaration: Type IdentList ';'
+
+    6 Type: int
+    7     | float
+
+    8 IdentList: identifier ',' IdentList
+    9          | identifier
+
+   10 Stmt: ForStmt
+   11     | WhileStmt
+   12     | Expr ';'
+   13     | IfStmt
+   14     | CompoundStmt
+   15     | Declaration
+   16     | ';'
+
+   17 ForStmt: for '(' Expr ';' OptExpr ';' OptExpr ')' Stmt
+
+   18 OptExpr: Expr
+   19        | %empty
+
+   20 WhileStmt: while '(' Expr ')' Stmt
+
+   21 IfStmt: if '(' Expr ')' Stmt
+   22       | if '(' Expr ')' Stmt else Stmt
+
+   23 CompoundStmt: '{' StmtList '}'
+
+   24 StmtList: StmtList Stmt
+   25         | %empty
+
+   26 Expr: identifier '=' Expr
+   27     | Rvalue
+
+   28 Rvalue: Rvalue Compare Mag
+   29       | Mag
+
+   30 Compare: eq
+   31        | lt
+   32        | gt
+   33        | le
+   34        | ge
+   35        | ne
+
+   36 Mag: Mag '+' Term
+   37    | Mag '-' Term
+   38    | Term
+
+   39 Term: Term '*' Factor
+   40     | Term '/' Factor
+   41     | Factor
+
+   42 Factor: '(' Expr ')'
+   43       | '-' Factor
+   44       | '+' Factor
+   45       | identifier
+   46       | number
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 1 17 20 21 22 42
+')' (41) 1 17 20 21 22 42
+'*' (42) 39
+'+' (43) 36 44
+',' (44) 3 8
+'-' (45) 37 43
+'/' (47) 40
+';' (59) 5 12 16 17
+'=' (61) 26
+'{' (123) 23
+'}' (125) 23
+error (256)
+identifier (258) 1 4 8 9 26 45
+number (259) 46
+int (260) 6
+float (261) 7
+for (262) 17
+while (263) 20
+if (264) 21 22
+else (265) 22
+eq (266) 30
+le (267) 33
+ge (268) 34
+ne (269) 35
+lt (270) 31
+gt (271) 32
+then (272)
+
+
+Nonterminals, with rules where they appear
+
+$accept (29)
+    on left: 0
+Function (30)
+    on left: 1, on right: 0
+ArgList (31)
+    on left: 2 3, on right: 1 3
+Arg (32)
+    on left: 4, on right: 2 3
+Declaration (33)
+    on left: 5, on right: 15
+Type (34)
+    on left: 6 7, on right: 1 4 5
+IdentList (35)
+    on left: 8 9, on right: 5 8
+Stmt (36)
+    on left: 10 11 12 13 14 15 16, on right: 17 20 21 22 24
+ForStmt (37)
+    on left: 17, on right: 10
+OptExpr (38)
+    on left: 18 19, on right: 17
+WhileStmt (39)
+    on left: 20, on right: 11
+IfStmt (40)
+    on left: 21 22, on right: 13
+CompoundStmt (41)
+    on left: 23, on right: 1 14
+StmtList (42)
+    on left: 24 25, on right: 23 24
+Expr (43)
+    on left: 26 27, on right: 12 17 18 20 21 22 26 42
+Rvalue (44)
+    on left: 28 29, on right: 27 28
+Compare (45)
+    on left: 30 31 32 33 34 35, on right: 28
+Mag (46)
+    on left: 36 37 38, on right: 28 29 36 37
+Term (47)
+    on left: 39 40 41, on right: 36 37 38 39 40
+Factor (48)
+    on left: 42 43 44 45 46, on right: 39 40 41 43 44
+
+
+State 0
+
+    0 $accept: . Function $end
+
+    int    shift, and go to state 1
+    float  shift, and go to state 2
+
+    Function  go to state 3
+    Type      go to state 4
+
+
+State 1
+
+    6 Type: int .
+
+    $default  reduce using rule 6 (Type)
+
+
+State 2
+
+    7 Type: float .
+
+    $default  reduce using rule 7 (Type)
+
+
+State 3
+
+    0 $accept: Function . $end
+
+    $end  shift, and go to state 5
+
+
+State 4
+
+    1 Function: Type . identifier '(' ArgList ')' CompoundStmt
+
+    identifier  shift, and go to state 6
+
+
+State 5
+
+    0 $accept: Function $end .
+
+    $default  accept
+
+
+State 6
+
+    1 Function: Type identifier . '(' ArgList ')' CompoundStmt
+
+    '('  shift, and go to state 7
+
+
+State 7
+
+    1 Function: Type identifier '(' . ArgList ')' CompoundStmt
+
+    int    shift, and go to state 1
+    float  shift, and go to state 2
+
+    ArgList  go to state 8
+    Arg      go to state 9
+    Type     go to state 10
+
+
+State 8
+
+    1 Function: Type identifier '(' ArgList . ')' CompoundStmt
+    3 ArgList: ArgList . ',' Arg
+
+    ')'  shift, and go to state 11
+    ','  shift, and go to state 12
+
+
+State 9
+
+    2 ArgList: Arg .
+
+    $default  reduce using rule 2 (ArgList)
+
+
+State 10
+
+    4 Arg: Type . identifier
+
+    identifier  shift, and go to state 13
+
+
+State 11
+
+    1 Function: Type identifier '(' ArgList ')' . CompoundStmt
+
+    '{'  shift, and go to state 14
+
+    CompoundStmt  go to state 15
+
+
+State 12
+
+    3 ArgList: ArgList ',' . Arg
+
+    int    shift, and go to state 1
+    float  shift, and go to state 2
+
+    Arg   go to state 16
+    Type  go to state 10
+
+
+State 13
+
+    4 Arg: Type identifier .
+
+    $default  reduce using rule 4 (Arg)
+
+
+State 14
+
+   23 CompoundStmt: '{' . StmtList '}'
+
+    $default  reduce using rule 25 (StmtList)
+
+    StmtList  go to state 17
+
+
+State 15
+
+    1 Function: Type identifier '(' ArgList ')' CompoundStmt .
+
+    $default  reduce using rule 1 (Function)
+
+
+State 16
+
+    3 ArgList: ArgList ',' Arg .
+
+    $default  reduce using rule 3 (ArgList)
+
+
+State 17
+
+   23 CompoundStmt: '{' StmtList . '}'
+   24 StmtList: StmtList . Stmt
+
+    identifier  shift, and go to state 18
+    number      shift, and go to state 19
+    int         shift, and go to state 1
+    float       shift, and go to state 2
+    for         shift, and go to state 20
+    while       shift, and go to state 21
+    if          shift, and go to state 22
+    '('         shift, and go to state 23
+    ';'         shift, and go to state 24
+    '{'         shift, and go to state 14
+    '}'         shift, and go to state 25
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Declaration   go to state 28
+    Type          go to state 29
+    Stmt          go to state 30
+    ForStmt       go to state 31
+    WhileStmt     go to state 32
+    IfStmt        go to state 33
+    CompoundStmt  go to state 34
+    Expr          go to state 35
+    Rvalue        go to state 36
+    Mag           go to state 37
+    Term          go to state 38
+    Factor        go to state 39
+
+
+State 18
+
+   26 Expr: identifier . '=' Expr
+   45 Factor: identifier .
+
+    '='  shift, and go to state 40
+
+    $default  reduce using rule 45 (Factor)
+
+
+State 19
+
+   46 Factor: number .
+
+    $default  reduce using rule 46 (Factor)
+
+
+State 20
+
+   17 ForStmt: for . '(' Expr ';' OptExpr ';' OptExpr ')' Stmt
+
+    '('  shift, and go to state 41
+
+
+State 21
+
+   20 WhileStmt: while . '(' Expr ')' Stmt
+
+    '('  shift, and go to state 42
+
+
+State 22
+
+   21 IfStmt: if . '(' Expr ')' Stmt
+   22       | if . '(' Expr ')' Stmt else Stmt
+
+    '('  shift, and go to state 43
+
+
+State 23
+
+   42 Factor: '(' . Expr ')'
+
+    identifier  shift, and go to state 18
+    number      shift, and go to state 19
+    '('         shift, and go to state 23
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Expr    go to state 44
+    Rvalue  go to state 36
+    Mag     go to state 37
+    Term    go to state 38
+    Factor  go to state 39
+
+
+State 24
+
+   16 Stmt: ';' .
+
+    $default  reduce using rule 16 (Stmt)
+
+
+State 25
+
+   23 CompoundStmt: '{' StmtList '}' .
+
+    $default  reduce using rule 23 (CompoundStmt)
+
+
+State 26
+
+   44 Factor: '+' . Factor
+
+    identifier  shift, and go to state 45
+    number      shift, and go to state 19
+    '('         shift, and go to state 23
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Factor  go to state 46
+
+
+State 27
+
+   43 Factor: '-' . Factor
+
+    identifier  shift, and go to state 45
+    number      shift, and go to state 19
+    '('         shift, and go to state 23
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Factor  go to state 47
+
+
+State 28
+
+   15 Stmt: Declaration .
+
+    $default  reduce using rule 15 (Stmt)
+
+
+State 29
+
+    5 Declaration: Type . IdentList ';'
+
+    identifier  shift, and go to state 48
+
+    IdentList  go to state 49
+
+
+State 30
+
+   24 StmtList: StmtList Stmt .
+
+    $default  reduce using rule 24 (StmtList)
+
+
+State 31
+
+   10 Stmt: ForStmt .
+
+    $default  reduce using rule 10 (Stmt)
+
+
+State 32
+
+   11 Stmt: WhileStmt .
+
+    $default  reduce using rule 11 (Stmt)
+
+
+State 33
+
+   13 Stmt: IfStmt .
+
+    $default  reduce using rule 13 (Stmt)
+
+
+State 34
+
+   14 Stmt: CompoundStmt .
+
+    $default  reduce using rule 14 (Stmt)
+
+
+State 35
+
+   12 Stmt: Expr . ';'
+
+    ';'  shift, and go to state 50
+
+
+State 36
+
+   27 Expr: Rvalue .
+   28 Rvalue: Rvalue . Compare Mag
+
+    eq  shift, and go to state 51
+    le  shift, and go to state 52
+    ge  shift, and go to state 53
+    ne  shift, and go to state 54
+    lt  shift, and go to state 55
+    gt  shift, and go to state 56
+
+    $default  reduce using rule 27 (Expr)
+
+    Compare  go to state 57
+
+
+State 37
+
+   29 Rvalue: Mag .
+   36 Mag: Mag . '+' Term
+   37    | Mag . '-' Term
+
+    '+'  shift, and go to state 58
+    '-'  shift, and go to state 59
+
+    $default  reduce using rule 29 (Rvalue)
+
+
+State 38
+
+   38 Mag: Term .
+   39 Term: Term . '*' Factor
+   40     | Term . '/' Factor
+
+    '*'  shift, and go to state 60
+    '/'  shift, and go to state 61
+
+    $default  reduce using rule 38 (Mag)
+
+
+State 39
+
+   41 Term: Factor .
+
+    $default  reduce using rule 41 (Term)
+
+
+State 40
+
+   26 Expr: identifier '=' . Expr
+
+    identifier  shift, and go to state 18
+    number      shift, and go to state 19
+    '('         shift, and go to state 23
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Expr    go to state 62
+    Rvalue  go to state 36
+    Mag     go to state 37
+    Term    go to state 38
+    Factor  go to state 39
+
+
+State 41
+
+   17 ForStmt: for '(' . Expr ';' OptExpr ';' OptExpr ')' Stmt
+
+    identifier  shift, and go to state 18
+    number      shift, and go to state 19
+    '('         shift, and go to state 23
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Expr    go to state 63
+    Rvalue  go to state 36
+    Mag     go to state 37
+    Term    go to state 38
+    Factor  go to state 39
+
+
+State 42
+
+   20 WhileStmt: while '(' . Expr ')' Stmt
+
+    identifier  shift, and go to state 18
+    number      shift, and go to state 19
+    '('         shift, and go to state 23
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Expr    go to state 64
+    Rvalue  go to state 36
+    Mag     go to state 37
+    Term    go to state 38
+    Factor  go to state 39
+
+
+State 43
+
+   21 IfStmt: if '(' . Expr ')' Stmt
+   22       | if '(' . Expr ')' Stmt else Stmt
+
+    identifier  shift, and go to state 18
+    number      shift, and go to state 19
+    '('         shift, and go to state 23
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Expr    go to state 65
+    Rvalue  go to state 36
+    Mag     go to state 37
+    Term    go to state 38
+    Factor  go to state 39
+
+
+State 44
+
+   42 Factor: '(' Expr . ')'
+
+    ')'  shift, and go to state 66
+
+
+State 45
+
+   45 Factor: identifier .
+
+    $default  reduce using rule 45 (Factor)
+
+
+State 46
+
+   44 Factor: '+' Factor .
+
+    $default  reduce using rule 44 (Factor)
+
+
+State 47
+
+   43 Factor: '-' Factor .
+
+    $default  reduce using rule 43 (Factor)
+
+
+State 48
+
+    8 IdentList: identifier . ',' IdentList
+    9          | identifier .
+
+    ','  shift, and go to state 67
+
+    $default  reduce using rule 9 (IdentList)
+
+
+State 49
+
+    5 Declaration: Type IdentList . ';'
+
+    ';'  shift, and go to state 68
+
+
+State 50
+
+   12 Stmt: Expr ';' .
+
+    $default  reduce using rule 12 (Stmt)
+
+
+State 51
+
+   30 Compare: eq .
+
+    $default  reduce using rule 30 (Compare)
+
+
+State 52
+
+   33 Compare: le .
+
+    $default  reduce using rule 33 (Compare)
+
+
+State 53
+
+   34 Compare: ge .
+
+    $default  reduce using rule 34 (Compare)
+
+
+State 54
+
+   35 Compare: ne .
+
+    $default  reduce using rule 35 (Compare)
+
+
+State 55
+
+   31 Compare: lt .
+
+    $default  reduce using rule 31 (Compare)
+
+
+State 56
+
+   32 Compare: gt .
+
+    $default  reduce using rule 32 (Compare)
+
+
+State 57
+
+   28 Rvalue: Rvalue Compare . Mag
+
+    identifier  shift, and go to state 45
+    number      shift, and go to state 19
+    '('         shift, and go to state 23
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Mag     go to state 69
+    Term    go to state 38
+    Factor  go to state 39
+
+
+State 58
+
+   36 Mag: Mag '+' . Term
+
+    identifier  shift, and go to state 45
+    number      shift, and go to state 19
+    '('         shift, and go to state 23
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Term    go to state 70
+    Factor  go to state 39
+
+
+State 59
+
+   37 Mag: Mag '-' . Term
+
+    identifier  shift, and go to state 45
+    number      shift, and go to state 19
+    '('         shift, and go to state 23
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Term    go to state 71
+    Factor  go to state 39
+
+
+State 60
+
+   39 Term: Term '*' . Factor
+
+    identifier  shift, and go to state 45
+    number      shift, and go to state 19
+    '('         shift, and go to state 23
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Factor  go to state 72
+
+
+State 61
+
+   40 Term: Term '/' . Factor
+
+    identifier  shift, and go to state 45
+    number      shift, and go to state 19
+    '('         shift, and go to state 23
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Factor  go to state 73
+
+
+State 62
+
+   26 Expr: identifier '=' Expr .
+
+    $default  reduce using rule 26 (Expr)
+
+
+State 63
+
+   17 ForStmt: for '(' Expr . ';' OptExpr ';' OptExpr ')' Stmt
+
+    ';'  shift, and go to state 74
+
+
+State 64
+
+   20 WhileStmt: while '(' Expr . ')' Stmt
+
+    ')'  shift, and go to state 75
+
+
+State 65
+
+   21 IfStmt: if '(' Expr . ')' Stmt
+   22       | if '(' Expr . ')' Stmt else Stmt
+
+    ')'  shift, and go to state 76
+
+
+State 66
+
+   42 Factor: '(' Expr ')' .
+
+    $default  reduce using rule 42 (Factor)
+
+
+State 67
+
+    8 IdentList: identifier ',' . IdentList
+
+    identifier  shift, and go to state 48
+
+    IdentList  go to state 77
+
+
+State 68
+
+    5 Declaration: Type IdentList ';' .
+
+    $default  reduce using rule 5 (Declaration)
+
+
+State 69
+
+   28 Rvalue: Rvalue Compare Mag .
+   36 Mag: Mag . '+' Term
+   37    | Mag . '-' Term
+
+    '+'  shift, and go to state 58
+    '-'  shift, and go to state 59
+
+    $default  reduce using rule 28 (Rvalue)
+
+
+State 70
+
+   36 Mag: Mag '+' Term .
+   39 Term: Term . '*' Factor
+   40     | Term . '/' Factor
+
+    '*'  shift, and go to state 60
+    '/'  shift, and go to state 61
+
+    $default  reduce using rule 36 (Mag)
+
+
+State 71
+
+   37 Mag: Mag '-' Term .
+   39 Term: Term . '*' Factor
+   40     | Term . '/' Factor
+
+    '*'  shift, and go to state 60
+    '/'  shift, and go to state 61
+
+    $default  reduce using rule 37 (Mag)
+
+
+State 72
+
+   39 Term: Term '*' Factor .
+
+    $default  reduce using rule 39 (Term)
+
+
+State 73
+
+   40 Term: Term '/' Factor .
+
+    $default  reduce using rule 40 (Term)
+
+
+State 74
+
+   17 ForStmt: for '(' Expr ';' . OptExpr ';' OptExpr ')' Stmt
+
+    identifier  shift, and go to state 18
+    number      shift, and go to state 19
+    '('         shift, and go to state 23
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    $default  reduce using rule 19 (OptExpr)
+
+    OptExpr  go to state 78
+    Expr     go to state 79
+    Rvalue   go to state 36
+    Mag      go to state 37
+    Term     go to state 38
+    Factor   go to state 39
+
+
+State 75
+
+   20 WhileStmt: while '(' Expr ')' . Stmt
+
+    identifier  shift, and go to state 18
+    number      shift, and go to state 19
+    int         shift, and go to state 1
+    float       shift, and go to state 2
+    for         shift, and go to state 20
+    while       shift, and go to state 21
+    if          shift, and go to state 22
+    '('         shift, and go to state 23
+    ';'         shift, and go to state 24
+    '{'         shift, and go to state 14
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Declaration   go to state 28
+    Type          go to state 29
+    Stmt          go to state 80
+    ForStmt       go to state 31
+    WhileStmt     go to state 32
+    IfStmt        go to state 33
+    CompoundStmt  go to state 34
+    Expr          go to state 35
+    Rvalue        go to state 36
+    Mag           go to state 37
+    Term          go to state 38
+    Factor        go to state 39
+
+
+State 76
+
+   21 IfStmt: if '(' Expr ')' . Stmt
+   22       | if '(' Expr ')' . Stmt else Stmt
+
+    identifier  shift, and go to state 18
+    number      shift, and go to state 19
+    int         shift, and go to state 1
+    float       shift, and go to state 2
+    for         shift, and go to state 20
+    while       shift, and go to state 21
+    if          shift, and go to state 22
+    '('         shift, and go to state 23
+    ';'         shift, and go to state 24
+    '{'         shift, and go to state 14
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Declaration   go to state 28
+    Type          go to state 29
+    Stmt          go to state 81
+    ForStmt       go to state 31
+    WhileStmt     go to state 32
+    IfStmt        go to state 33
+    CompoundStmt  go to state 34
+    Expr          go to state 35
+    Rvalue        go to state 36
+    Mag           go to state 37
+    Term          go to state 38
+    Factor        go to state 39
+
+
+State 77
+
+    8 IdentList: identifier ',' IdentList .
+
+    $default  reduce using rule 8 (IdentList)
+
+
+State 78
+
+   17 ForStmt: for '(' Expr ';' OptExpr . ';' OptExpr ')' Stmt
+
+    ';'  shift, and go to state 82
+
+
+State 79
+
+   18 OptExpr: Expr .
+
+    $default  reduce using rule 18 (OptExpr)
+
+
+State 80
+
+   20 WhileStmt: while '(' Expr ')' Stmt .
+
+    $default  reduce using rule 20 (WhileStmt)
+
+
+State 81
+
+   21 IfStmt: if '(' Expr ')' Stmt .
+   22       | if '(' Expr ')' Stmt . else Stmt
+
+    else  shift, and go to state 83
+
+    $default  reduce using rule 21 (IfStmt)
+
+
+State 82
+
+   17 ForStmt: for '(' Expr ';' OptExpr ';' . OptExpr ')' Stmt
+
+    identifier  shift, and go to state 18
+    number      shift, and go to state 19
+    '('         shift, and go to state 23
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    $default  reduce using rule 19 (OptExpr)
+
+    OptExpr  go to state 84
+    Expr     go to state 79
+    Rvalue   go to state 36
+    Mag      go to state 37
+    Term     go to state 38
+    Factor   go to state 39
+
+
+State 83
+
+   22 IfStmt: if '(' Expr ')' Stmt else . Stmt
+
+    identifier  shift, and go to state 18
+    number      shift, and go to state 19
+    int         shift, and go to state 1
+    float       shift, and go to state 2
+    for         shift, and go to state 20
+    while       shift, and go to state 21
+    if          shift, and go to state 22
+    '('         shift, and go to state 23
+    ';'         shift, and go to state 24
+    '{'         shift, and go to state 14
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Declaration   go to state 28
+    Type          go to state 29
+    Stmt          go to state 85
+    ForStmt       go to state 31
+    WhileStmt     go to state 32
+    IfStmt        go to state 33
+    CompoundStmt  go to state 34
+    Expr          go to state 35
+    Rvalue        go to state 36
+    Mag           go to state 37
+    Term          go to state 38
+    Factor        go to state 39
+
+
+State 84
+
+   17 ForStmt: for '(' Expr ';' OptExpr ';' OptExpr . ')' Stmt
+
+    ')'  shift, and go to state 86
+
+
+State 85
+
+   22 IfStmt: if '(' Expr ')' Stmt else Stmt .
+
+    $default  reduce using rule 22 (IfStmt)
+
+
+State 86
+
+   17 ForStmt: for '(' Expr ';' OptExpr ';' OptExpr ')' . Stmt
+
+    identifier  shift, and go to state 18
+    number      shift, and go to state 19
+    int         shift, and go to state 1
+    float       shift, and go to state 2
+    for         shift, and go to state 20
+    while       shift, and go to state 21
+    if          shift, and go to state 22
+    '('         shift, and go to state 23
+    ';'         shift, and go to state 24
+    '{'         shift, and go to state 14
+    '+'         shift, and go to state 26
+    '-'         shift, and go to state 27
+
+    Declaration   go to state 28
+    Type          go to state 29
+    Stmt          go to state 87
+    ForStmt       go to state 31
+    WhileStmt     go to state 32
+    IfStmt        go to state 33
+    CompoundStmt  go to state 34
+    Expr          go to state 35
+    Rvalue        go to state 36
+    Mag           go to state 37
+    Term          go to state 38
+    Factor        go to state 39
+
+
+State 87
+
+   17 ForStmt: for '(' Expr ';' OptExpr ';' OptExpr ')' Stmt .
+
+    $default  reduce using rule 17 (ForStmt)
