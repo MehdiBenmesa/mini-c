@@ -2,15 +2,17 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+void yyerror(char *);
+int yylex(void);
 %}
 %token identifier
 %token number
-%token int float
-%token for while
-%token if else
+%token INT FLOAT
+%token FOR WHILE
+%token IF ELSE
 %token eq le ge ne lt gt
 %right '='
-%right then else
+%right then ELSE
 
 %%
 Function : Type identifier '(' ArgList ')' CompoundStmt
@@ -25,8 +27,8 @@ Arg : Type identifier
 
 Declaration  : Type IdentList ';'
 
-Type : int
-     | float
+Type : INT
+     | FLOAT
      ;
 
 IdentList : identifier ',' IdentList
@@ -42,16 +44,16 @@ Stmt : ForStmt
       | ';'
       ;
 
-ForStmt :  for '(' Expr ';' OptExpr ';' OptExpr  ')' Stmt
+ForStmt :  FOR '(' Expr ';' OptExpr ';' OptExpr  ')' Stmt
 OptExpr  : Expr
           |
           ;
 
-WhileStmt : while '(' Expr  ')' Stmt
+WhileStmt : WHILE '(' Expr  ')' Stmt
           ;
 
-IfStmt : if '(' Expr ')' Stmt %prec then
-       | if '(' Expr ')' Stmt else Stmt
+IfStmt : IF '(' Expr ')' Stmt %prec then
+       | IF '(' Expr ')' Stmt ELSE Stmt
        ;
 
 
@@ -96,23 +98,12 @@ Factor : '(' Expr  ')'
        | number
        ;
 %%
-#include "lex.yy.c"
 main(){
   yyparse();
 
 }
-yyerror(char *s) {
-  printf("%d : %s %s\n", yylineno, s, yytext );
-}
-/*yylex(){
-    int c;
-    c = getchar();
-    if (isdigit(c)) {
-      yylval = c – '0';
-      return chiffre ;
-    }
-    return (c);
+void yyerror(char *s) {
+    printf("%s\n", s);
+
 }
 
-yyerror(){}
-*/

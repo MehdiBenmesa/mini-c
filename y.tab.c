@@ -67,8 +67,10 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+void yyerror(char *);
+int yylex(void);
 
-#line 72 "y.tab.c" /* yacc.c:339  */
+#line 74 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -86,7 +88,10 @@
 # define YYERROR_VERBOSE 0
 #endif
 
-
+/* In a future release of Bison, this section will be replaced
+   by #include "y.tab.h".  */
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -102,12 +107,12 @@ extern int yydebug;
   {
     identifier = 258,
     number = 259,
-    int = 260,
-    float = 261,
-    for = 262,
-    while = 263,
-    if = 264,
-    else = 265,
+    INT = 260,
+    FLOAT = 261,
+    FOR = 262,
+    WHILE = 263,
+    IF = 264,
+    ELSE = 265,
     eq = 266,
     le = 267,
     ge = 268,
@@ -120,12 +125,12 @@ extern int yydebug;
 /* Tokens.  */
 #define identifier 258
 #define number 259
-#define int 260
-#define float 261
-#define for 262
-#define while 263
-#define if 264
-#define else 265
+#define INT 260
+#define FLOAT 261
+#define FOR 262
+#define WHILE 263
+#define IF 264
+#define ELSE 265
 #define eq 266
 #define le 267
 #define ge 268
@@ -146,11 +151,11 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 154 "y.tab.c" /* yacc.c:358  */
+#line 159 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -449,11 +454,11 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    16,    16,    19,    20,    23,    26,    28,    29,    32,
-      33,    36,    37,    38,    39,    40,    41,    42,    45,    46,
-      47,    50,    53,    54,    58,    62,    63,    66,    67,    70,
-      71,    74,    75,    76,    77,    78,    79,    82,    83,    84,
-      87,    88,    89,    92,    93,    94,    95,    96
+       0,    18,    18,    21,    22,    25,    28,    30,    31,    34,
+      35,    38,    39,    40,    41,    42,    43,    44,    47,    48,
+      49,    52,    55,    56,    60,    64,    65,    68,    69,    72,
+      73,    76,    77,    78,    79,    80,    81,    84,    85,    86,
+      89,    90,    91,    94,    95,    96,    97,    98
 };
 #endif
 
@@ -462,8 +467,8 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "identifier", "number", "int", "float",
-  "for", "while", "if", "else", "eq", "le", "ge", "ne", "lt", "gt", "'='",
+  "$end", "error", "$undefined", "identifier", "number", "INT", "FLOAT",
+  "FOR", "WHILE", "IF", "ELSE", "eq", "le", "ge", "ne", "lt", "gt", "'='",
   "then", "'('", "')'", "','", "';'", "'{'", "'}'", "'+'", "'-'", "'*'",
   "'/'", "$accept", "Function", "ArgList", "Arg", "Declaration", "Type",
   "IdentList", "Stmt", "ForStmt", "OptExpr", "WhileStmt", "IfStmt",
@@ -1278,7 +1283,7 @@ yyreduce:
   switch (yyn)
     {
       
-#line 1282 "y.tab.c" /* yacc.c:1646  */
+#line 1287 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1506,25 +1511,14 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 98 "mini-c.y" /* yacc.c:1906  */
+#line 100 "mini-c.y" /* yacc.c:1906  */
 
-#include "lex.yy.c"
 main(){
   yyparse();
 
 }
-yyerror(char *s) {
-  printf("%d : %s %s\n", yylineno, s, yytext );
-}
-/*yylex(){
-    int c;
-    c = getchar();
-    if (isdigit(c)) {
-      yylval = c – '0';
-      return chiffre ;
-    }
-    return (c);
+void yyerror(char *s) {
+    printf("%s\n", s);
+
 }
 
-yyerror(){}
-*/

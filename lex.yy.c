@@ -497,7 +497,11 @@ int yy_flex_debug = 0;
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
 #line 1 "mini-c.l"
-#line 501 "lex.yy.c"
+#line 2 "mini-c.l"
+#include "y.tab.h"
+#include <stdlib.h>
+#include <stdio.h>
+#line 505 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -715,9 +719,9 @@ YY_DECL
 		}
 
 	{
-#line 4 "mini-c.l"
+#line 8 "mini-c.l"
 
-#line 721 "lex.yy.c"
+#line 725 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -776,107 +780,107 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 5 "mini-c.l"
+#line 9 "mini-c.l"
 ;
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 6 "mini-c.l"
+#line 10 "mini-c.l"
 { yylineno = yylineno + 1; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 7 "mini-c.l"
-return int;
+#line 11 "mini-c.l"
+return INT;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 8 "mini-c.l"
-return float;
+#line 12 "mini-c.l"
+return FLOAT;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 9 "mini-c.l"
-return for;
+#line 13 "mini-c.l"
+return FOR;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 10 "mini-c.l"
-return while;
+#line 14 "mini-c.l"
+return WHILE;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 11 "mini-c.l"
-return if;
+#line 15 "mini-c.l"
+return IF;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 12 "mini-c.l"
-return else;
+#line 16 "mini-c.l"
+return ELSE;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 13 "mini-c.l"
+#line 17 "mini-c.l"
 return number;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 14 "mini-c.l"
+#line 18 "mini-c.l"
 return identifier;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 15 "mini-c.l"
+#line 19 "mini-c.l"
 return le;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 16 "mini-c.l"
+#line 20 "mini-c.l"
 return ge;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 17 "mini-c.l"
+#line 21 "mini-c.l"
 return eq;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 18 "mini-c.l"
+#line 22 "mini-c.l"
 return ne;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 19 "mini-c.l"
+#line 23 "mini-c.l"
 return gt;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 20 "mini-c.l"
+#line 24 "mini-c.l"
 return lt;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 21 "mini-c.l"
+#line 25 "mini-c.l"
 ;
 	YY_BREAK
 case 18:
 /* rule 18 can match eol */
 YY_RULE_SETUP
-#line 22 "mini-c.l"
+#line 26 "mini-c.l"
 ;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 23 "mini-c.l"
-return yytext[0];
+#line 27 "mini-c.l"
+{printf("hello"); return yytext[0];}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 24 "mini-c.l"
+#line 28 "mini-c.l"
 ECHO;
 	YY_BREAK
-#line 880 "lex.yy.c"
+#line 884 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1877,7 +1881,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 24 "mini-c.l"
+#line 28 "mini-c.l"
 
 
 
